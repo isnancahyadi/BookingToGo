@@ -1,4 +1,4 @@
-import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {PaymentContext} from '../../context/PaymentContext';
@@ -7,9 +7,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {primaryColor} from '../../values/colors';
 import {screenWidth} from '../../values/screenSize';
 import {styles} from './contentStyle';
+import {useNavigation} from '@react-navigation/native';
 
 const ContentDetailPayment = () => {
   const {setTitle} = useContext(PaymentContext);
+  const navigation = useNavigation();
+
   const [checked, setChecked] = useState('first');
 
   useEffect(() => setTitle('Payment Details'), []);
@@ -142,9 +145,11 @@ const ContentDetailPayment = () => {
               justifyContent: 'flex-end',
               marginVertical: 20,
             }}>
-            <Text variant="titleMedium" style={styles.textLink}>
-              Ubah Data Tamu
-            </Text>
+            <Pressable onPress={() => navigation.navigate('AddGuests')}>
+              <Text variant="titleMedium" style={styles.textLink}>
+                Ubah Data Tamu
+              </Text>
+            </Pressable>
           </View>
         </Surface>
       </SafeAreaView>

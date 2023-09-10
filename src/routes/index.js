@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {DetailPayment} from '../screens';
+import {AddGuests, DetailPayment} from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +15,7 @@ const Router = () => {
           contentStyle: {backgroundColor: '#FFFFFF'},
         }}>
         <Stack.Screen name="DetailPayment" component={DetailPayment} />
+        <Stack.Screen name="AddGuests" component={AddGuests} />
       </Stack.Navigator>
     </NavigationContainer>
   );

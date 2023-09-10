@@ -1,15 +1,24 @@
-import {StyleSheet, View} from 'react-native';
+import {BackHandler, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Surface, Text} from 'react-native-paper';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {primaryColor} from '../../values/colors';
+import {useNavigation} from '@react-navigation/native';
 
 const Header = ({title}) => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.header}>
-      <Surface mode="flat" style={styles.backButton}>
-        <FontAwesome6 solid name={'arrow-left'} size={26} color={'#FFFFFF'} />
-      </Surface>
+      <Pressable
+        onPress={() =>
+          navigation.canGoBack() ? navigation.goBack() : BackHandler.exitApp()
+        }
+        style={styles.backButton}>
+        <Surface mode="flat" style={{backgroundColor: 'transparent'}}>
+          <FontAwesome6 solid name={'arrow-left'} size={26} color={'#FFFFFF'} />
+        </Surface>
+      </Pressable>
       <Text variant="titleMedium" style={styles.title}>
         {title}
       </Text>
@@ -28,7 +37,6 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    backgroundColor: 'transparent',
     marginHorizontal: 15,
     start: 0,
   },

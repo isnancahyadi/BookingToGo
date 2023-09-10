@@ -1,3 +1,4 @@
 import DetailPayment from './DetailPayment';
+import AddGuests from './AddGuests';
 
-export {DetailPayment};
+export {DetailPayment, AddGuests};
