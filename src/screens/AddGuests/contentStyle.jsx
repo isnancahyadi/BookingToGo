@@ -42,6 +42,7 @@ export const styles = StyleSheet.create({
   dropdownTextItem: {
     flex: 1,
     fontWeight: 'bold',
+    color: primaryColor,
   },
   input: {
     height: screenHeight * 0.06,

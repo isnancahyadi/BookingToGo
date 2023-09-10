@@ -1,0 +1,28 @@
+{
+  "id_reservation": 1,
+  "reservation_type": "self",
+  "data_customer": {
+    "id": 1,
+    "name": "Isnan Arif Cahyadi",
+    "gender": "male",
+    "email": "isnan.arifc@gmail.com",
+    "phone_num": "085156921405"
+  },
+  "guests_data": [
+    {
+      "id": 1,
+      "name": "Jane Fulani",
+      "gender": "female"
+    },
+    {
+      "id": 2,
+      "name": "Johny Doe",
+      "gender": "male"
+    },
+    {
+      "id": 3,
+      "name": "Hani Cahyani",
+      "gender": "female"
+    }
+  ]
+}

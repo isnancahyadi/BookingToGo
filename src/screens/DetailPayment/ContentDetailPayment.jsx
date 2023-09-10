@@ -5,15 +5,14 @@ import {PaymentContext} from '../../context/PaymentContext';
 import {RadioButton, Surface, Text} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {primaryColor} from '../../values/colors';
-import {screenWidth} from '../../values/screenSize';
 import {styles} from './contentStyle';
 import {useNavigation} from '@react-navigation/native';
 
 const ContentDetailPayment = () => {
-  const {setTitle} = useContext(PaymentContext);
+  const {setTitle, dataCustomer, dataGuests} = useContext(PaymentContext);
   const navigation = useNavigation();
 
-  const [checked, setChecked] = useState('first');
+  const [checked, setChecked] = useState(null);
 
   useEffect(() => setTitle('Payment Details'), []);
 
@@ -78,7 +77,7 @@ const ContentDetailPayment = () => {
         </View>
 
         <Surface mode="flat" style={styles.reserverContainer}>
-          <Text variant="titleMedium">Detail Pesanan</Text>
+          <Text variant="titleMedium">Detail Pemesan</Text>
 
           <Surface mode="flat" style={[styles.card, styles.cardReserver]}>
             <View
@@ -88,12 +87,18 @@ const ContentDetailPayment = () => {
                 {marginHorizontal: 5},
               ]}>
               <View style={styles.cardContent}>
-                <Text variant="titleMedium">Tn. Andreas Andreas</Text>
-                <Text variant="bodyMedium" style={styles.cardSubTitle}>
-                  andreasandreas@gmail.com
+                <Text variant="titleMedium">
+                  {dataCustomer?.data_customer?.gender === 'male'
+                    ? 'Tn. '
+                    : dataCustomer?.data_customer?.gender === 'female' &&
+                      'Ny. '}
+                  {dataCustomer?.data_customer?.name}
                 </Text>
                 <Text variant="bodyMedium" style={styles.cardSubTitle}>
-                  +628 22 2222 2222
+                  {dataCustomer?.data_customer?.email}
+                </Text>
+                <Text variant="bodyMedium" style={styles.cardSubTitle}>
+                  {dataCustomer?.data_customer?.phone_num}
                 </Text>
               </View>
               <Text variant="titleMedium" style={styles.textLink}>
@@ -104,7 +109,7 @@ const ContentDetailPayment = () => {
 
           <RadioButton.Group
             onValueChange={newChecked => setChecked(newChecked)}
-            value={checked}>
+            value={checked ?? dataCustomer?.reservation_type}>
             <View style={styles.radio}>
               <RadioButton value="self" color={primaryColor} />
               <Text variant="bodyMedium">Saya memesan untuk sendiri</Text>
@@ -118,25 +123,24 @@ const ContentDetailPayment = () => {
           <Text variant="titleMedium" style={{marginVertical: 15}}>
             Data Tamu
           </Text>
+
           <View style={styles.listPerson}>
-            <Surface mode="flat" style={[styles.card, styles.cardPerson]}>
-              <View style={styles.cardBody}>
-                <FontAwesome6 solid name="user" size={24} color={'#000000'} />
-                <Text variant="titleMedium">Tn. John Doe</Text>
-              </View>
-            </Surface>
-            <Surface mode="flat" style={[styles.card, styles.cardPerson]}>
-              <View style={styles.cardBody}>
-                <FontAwesome6 solid name="user" size={24} color={'#000000'} />
-                <Text variant="titleMedium">Ny. Johny Doe Doe</Text>
-              </View>
-            </Surface>
-            <Surface mode="flat" style={[styles.card, styles.cardPerson]}>
-              <View style={styles.cardBody}>
-                <FontAwesome6 solid name="user" size={24} color={'#000000'} />
-                <Text variant="titleMedium">Ny. Johny Doe Doe</Text>
-              </View>
-            </Surface>
+            {dataGuests?.map((item, index) => (
+              <Surface
+                key={index}
+                mode="flat"
+                style={[styles.card, styles.cardPerson]}>
+                <View style={styles.cardBody}>
+                  <FontAwesome6 solid name="user" size={24} color={'#000000'} />
+                  <Text variant="titleMedium">
+                    {item?.gender === 'male'
+                      ? 'Tn. '
+                      : item?.gender === 'female' && 'Ny. '}
+                    {item?.name}
+                  </Text>
+                </View>
+              </Surface>
+            ))}
           </View>
 
           <View

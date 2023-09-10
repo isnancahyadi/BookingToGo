@@ -4,12 +4,13 @@ import {PaymentProvider} from '../../context/PaymentContext';
 import ContentDetailPayment from './ContentDetailPayment';
 import {Avatar, Surface, Text} from 'react-native-paper';
 import {primaryColor, primaryColorTransparent} from '../../values/colors';
+import {screenWidth} from '../../values/screenSize';
 
 const DetailPayment = () => {
   return (
     <PaymentProvider>
       <Surface style={styles.stepContainer}>
-        <View style={styles.step}>
+        <View style={[styles.step, {start: screenWidth / 3.5}]}>
           <View style={[styles.step, {columnGap: 5}]}>
             <Avatar.Text
               size={26}
