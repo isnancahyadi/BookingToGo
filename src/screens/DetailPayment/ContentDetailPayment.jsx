@@ -7,14 +7,32 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {primaryColor} from '../../values/colors';
 import {styles} from './contentStyle';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const ContentDetailPayment = () => {
   const {setTitle, dataCustomer, dataGuests} = useContext(PaymentContext);
   const navigation = useNavigation();
 
+  const {chosen_hotel} = useSelector(state => state?.reservation?.data);
+
   const [checked, setChecked] = useState(null);
 
   useEffect(() => setTitle('Payment Details'), []);
+
+  const {
+    chosen_hotel_detail,
+    chosen_hotel_room,
+    chosen_hotel_params,
+    chosen_hotel_prices,
+  } = chosen_hotel?.data?.get_chosen_hotel;
+
+  const {check_in, check_out} = chosen_hotel_params;
+
+  const dateCheckIn = new Date(check_in);
+  const dateCheckOut = new Date(check_out);
+
+  const reservationNight =
+    (dateCheckOut.getTime() - dateCheckIn.getTime()) / (1000 * 3600 * 24);
 
   return (
     <ScrollView>
@@ -26,20 +44,21 @@ const ContentDetailPayment = () => {
             <View style={styles.cardBody}>
               <View style={styles.cardImage} resizeMode="cover">
                 <Image
-                  source={require('../../assets/img/room.jpg')}
+                  source={{uri: chosen_hotel_detail?.images[5]?.thumbnail}}
                   style={styles.image}
                 />
               </View>
 
               <View style={styles.cardContent}>
                 <Text variant="bodyLarge" style={styles.cardTitle}>
-                  Novotel Tangerang
+                  {chosen_hotel_detail?.hotel_name}
                 </Text>
                 <Text variant="bodySmall" style={styles.cardSubTitle}>
-                  Executive Suit Room with Breakfast
+                  {chosen_hotel_room?.room_name}
                 </Text>
                 <Text variant="bodySmall" style={styles.cardSubTitle}>
-                  1 Kamar {'\u25CF'} Quardruple {'\u25CF'} 10 Malam
+                  {chosen_hotel_params?.total_room} Kamar {'\u25CF'} Double{' '}
+                  {'\u25CF'} {reservationNight} Malam
                 </Text>
               </View>
             </View>
@@ -49,28 +68,49 @@ const ContentDetailPayment = () => {
             <View style={styles.statusCheck}>
               <Text variant="titleMedium">Check-In</Text>
               <Text variant="titleSmall" style={{color: 'rgba(0, 0, 0, .5)'}}>
-                30 November 2020
+                {dateCheckIn.toLocaleDateString('id-ID', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
               </Text>
             </View>
 
             <View style={styles.statusCheck}>
               <Text variant="titleMedium">Check-Out</Text>
               <Text variant="titleSmall" style={{color: 'rgba(0, 0, 0, .5)'}}>
-                14 Desember 2020
+                {dateCheckOut.toLocaleDateString('id-ID', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
               </Text>
             </View>
 
             <View style={styles.statusNote}>
               <FontAwesome6
                 solid
-                name="money-bill-transfer"
+                name={
+                  chosen_hotel_prices?.is_refundable
+                    ? 'money-bill-transfer'
+                    : 'sack-xmark'
+                }
                 size={19}
-                color={'#FFBA7B'}
+                color={
+                  chosen_hotel_prices?.is_refundable ? '#FFBA7B' : '#FF7B7B'
+                }
               />
               <Text
                 variant="titleSmall"
-                style={{color: '#FFBA7B', fontWeight: 'bold'}}>
-                Dapat direfund jika dibatalkan
+                style={{
+                  color: chosen_hotel_prices?.is_refundable
+                    ? '#FFBA7B'
+                    : '#FF7B7B',
+                  fontWeight: 'bold',
+                }}>
+                {chosen_hotel_prices?.is_refundable
+                  ? 'Dapat direfund jika dibatalkan'
+                  : 'Tidak dapat direfund'}
               </Text>
             </View>
           </View>

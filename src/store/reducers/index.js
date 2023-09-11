@@ -1,3 +1,4 @@
 import customerSlice from './customerSlice';
+import reservationSlice from './reservationSlice';
 
-export {customerSlice};
+export {customerSlice, reservationSlice};
