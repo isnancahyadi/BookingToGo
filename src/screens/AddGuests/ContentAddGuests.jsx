@@ -24,6 +24,20 @@ const ContentAddGuests = () => {
 
   useEffect(() => setTitle('Tambah Data Tamu'), []);
 
+  const handleAddGuest = () => {
+    let lastGuest = dataGuests.slice(-1)[0];
+    let newId = lastGuest ? lastGuest.id + 1 : 1;
+
+    setDataGuests(prevData => [
+      ...prevData,
+      {
+        id: newId,
+        name: '',
+        gender: '',
+      },
+    ]);
+  };
+
   const renderItem = item => {
     return (
       <View style={styles.dropdownItem}>
@@ -100,14 +114,16 @@ const ContentAddGuests = () => {
           </SafeAreaView>
         </ScrollView>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <View style={styles.btnAddGuest}>
-            <FontAwesome6 solid name="plus" size={12} color={'#FF9F47'} />
-            <Text
-              variant="titleSmall"
-              style={{color: '#FF9F47', fontWeight: 'bold'}}>
-              Tambah Data Tamu
-            </Text>
-          </View>
+          <Pressable onPress={() => handleAddGuest()}>
+            <View style={styles.btnAddGuest}>
+              <FontAwesome6 solid name="plus" size={12} color={'#FF9F47'} />
+              <Text
+                variant="titleSmall"
+                style={{color: '#FF9F47', fontWeight: 'bold'}}>
+                Tambah Data Tamu
+              </Text>
+            </View>
+          </Pressable>
         </View>
       </SafeAreaView>
 

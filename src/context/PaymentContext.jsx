@@ -17,8 +17,6 @@ export const PaymentProvider = ({children}) => {
     setDataGuests(customer?.guests_data);
   }, [customer]);
 
-  console.log('guest: ', dataGuests);
-
   return (
     <>
       <Header title={title} />
